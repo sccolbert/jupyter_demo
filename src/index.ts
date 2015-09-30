@@ -530,11 +530,11 @@ function createMenuBar(panel: MainPanel): MenuBar {
               shortcut: 'Ctrl+E',
               handler: () => panel.newEditor(true),
             },
-            // {
-            //   text: 'Terminal',
-            //   shortcut: 'Ctrl+T',
-            //   handler: () => panel.newTerminal(true),
-            // }
+            {
+              text: 'Terminal',
+              shortcut: 'Ctrl+T',
+              handler: () => panel.newTerminal(true),
+            }
           ]
         },
         {
@@ -793,53 +793,57 @@ function createMenuBar(panel: MainPanel): MenuBar {
 
 function main(): void {
 
-  var listing = newFileBrowser();
+  //var listing = newFileBrowser();
   var dock = new MainPanel();
   var keymap = new KeymapManager();
 
-  function toggleListing(): boolean {
-    listing.hidden = !listing.hidden;
-    return true;
-  }
+  // function toggleListing(): boolean {
+  //   listing.hidden = !listing.hidden;
+  //   return true;
+  // }
 
-  listing.onClick = (path, contents) => {
-    var cm = dock.newEditor(true);
-    cm.loadFile(path, contents);
-    var parts = path.split('/');
-    var name = parts[parts.length - 1];
-    DockPanel.getTab(cm).text = name;
-  };
+  // listing.onClick = (path, contents) => {
+  //   var cm = dock.newEditor(true);
+  //   cm.loadFile(path, contents);
+  //   var parts = path.split('/');
+  //   var name = parts[parts.length - 1];
+  //   DockPanel.getTab(cm).text = name;
+  // };
 
 
   keymap.add('*', [
-    { sequence: 'Ctrl+N', handler: dock.newNotebook.bind(dock, true) },
-    { sequence: 'Ctrl+E', handler: dock.newEditor.bind(dock, true) },
-    // { sequence: 'Ctrl+T', handler: dock.newTerminal.bind(dock) }
-    { sequence: 'Ctrl+F', handler: toggleListing }
+    // { sequence: 'Ctrl+N', handler: dock.newNotebook.bind(dock, true) },
+    // { sequence: 'Ctrl+E', handler: dock.newEditor.bind(dock, true) },
+    { sequence: 'Ctrl+T', handler: dock.newTerminal.bind(dock, true) }
+    // { sequence: 'Ctrl+F', handler: toggleListing }
   ]);
 
   document.addEventListener('keydown', event => {
     keymap.processKeydownEvent(event);
   });
 
-  var panel = new SplitPanel();
-  panel.id = 'main';
+  // var panel = new SplitPanel();
+  // panel.id = 'main';
 
-  panel.children = [listing, dock];
-  panel.setSizes([1, 3]);
+  // panel.children = [listing, dock];
+  // panel.setSizes([1, 3]);
 
-  var cm = dock.newEditor();
+  //var cm = dock.newEditor();
   dock.newTerminalEx(DockMode.SplitBottom);
-  dock.newNotebookEx(DockMode.SplitLeft);
+  //dock.newNotebookEx(DockMode.SplitLeft);
 
-  DockPanel.getTab(cm).text = 'Sample';
+  //DockPanel.getTab(cm).text = 'Sample';
 
   var menuBar = createMenuBar(dock);
   attachWidget(menuBar, document.body);
 
-  attachWidget(panel, document.body);
-  panel.update();
-  window.onresize = () => panel.update();
+  // attachWidget(panel, document.body);
+  // panel.update();
+  // window.onresize = () => panel.update();
+  dock.id = 'main';
+  attachWidget(dock, document.body);
+  dock.update();
+  window.onresize = () => dock.update();
 }
 
 

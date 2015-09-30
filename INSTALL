@@ -1,0 +1,23 @@
+```bash
+npm install
+
+npm run build
+
+conda create -n jup3crash python=3.4 jupyter
+
+source activate jup3crash
+
+pip install git+https://github.com/jupyter/notebook
+
+python main.py
+
+# Navigate to localhost:8765
+#
+# 1. File -> New -> Terminal
+# 2. Click on the new Terminal Tab
+# 3. Boom
+#
+# This crashes for me on OSX 10.9.5 on:
+#   * Chrome 45.0.2454.101 (64-bit)
+#   * Firefox 40.0.3
+```
